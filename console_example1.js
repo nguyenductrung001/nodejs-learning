@@ -1,1 +1,1 @@
-console.log('Hello JavaTpoint'); 
+console.log('Hello %s','javaTpoiny'); 
