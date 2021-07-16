@@ -20,3 +20,6 @@ app.get('/hello', function(req, res){
  app.get('/users/:userId/books/:bookId', function (req, res) {
     res.send(req.params)
   })
+//   app.post('/hello' , function(req,res){
+//       res.send('bạn vừa gửi phương thức post tới địa chỉ  /hello');
+//   });
