@@ -15,7 +15,10 @@ app.post('/hello2', function(req, res){
 var userRouters  = require('./userRouters');
 // Lưu ý: userRouters và index.js phải ở cùng 1 thư mục
 app.use('/user', userRouters );
-
+app.post('/login', (req, res) => {
+    req.cookies.isShowPopup; // true
+    req.cookies.sessionID; //<span style="color: rgb(34, 34, 34); font-family: Roboto, Ubuntu, Arial, sans-serif; font-size: 12px; white-space: pre;">gsnsjfr3j09n02v</span>
+ })
 // app.get('/hello', function(req, res){
 //     res.send("Hello World!");
 //  });
@@ -30,3 +33,4 @@ app.use('/user', userRouters );
 //   app.post('/hello' , function(req,res){
 //       res.send('bạn vừa gửi phương thức post tới địa chỉ  /hello');
 //   });
+
