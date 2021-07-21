@@ -22,3 +22,30 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Parses the text as json
 app.use(bodyParser.json());
 app.use('/api', api);
+const StudentModel = require('./studentschema')
+const PAGE_SIZE = 2;
+app.get('/student',(req,res,next)=>{
+    var page = req.query.page;
+    if(page){
+        page = parseInt(page);
+        var soLuongBoQua =(page-1) * PAGE_SIZE
+
+        StudentModel.find({})
+        .skip(soLuongBoQua).limit(PAGE_SIZE)
+        .then(data=>{
+                res.json(data)
+        })
+        .catch(err=>{
+            res.status(500).json("Loi server")
+        })
+    }else{
+        StudentModel.find({})
+    .then(data =>{
+        res.json(data);
+    })
+    .catch(err=>{
+        res.status(500).json("Loi server")
+    })
+    }
+    
+})
