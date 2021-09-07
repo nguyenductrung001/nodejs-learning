@@ -87,35 +87,35 @@ const { json } = require('body-parser');
 
 
 // them moi vao api
-// app.get('/insertapi',(req,res) => {
-//     const urlApiThemMoi = 'https://api.punkapi.com/v2/beers';
-// axios.get(urlApiThemMoi)
-//    .then(function (response) {
-//        console.log('response');
-//        console.log(response);
-//        const { data } = response;
-//        console.log(response);
+app.get('/insertapi',(req,res) => {
+    const urlApiThemMoi = 'https://api.punkapi.com/v2/beers';
+axios.get(urlApiThemMoi)
+   .then(function (response) {
+       console.log('response');
+       console.log(response);
+       const { data } = response;
+       console.log(response);
 
-//        data.forEach(product =>{
-//             var newProduct = new ProductModel({
-//                 name: product.name,
-//                 tagline: product.tagline,
-//                 first_brewed:product.first_brewed,
-//                 description:product.description
-//                 });
+       data.forEach(product =>{
+            var newProduct = new ProductModel({
+                name: product.name,
+                tagline: product.tagline,
+                first_brewed:product.first_brewed,
+                description:product.description
+                });
             
-//                 newProduct.save(function(err, data) {
-//                 if(err) {
-//                     console.log(err);
-//                 }
-//                 else {
-//                     res.send("Data inserted");
-//                 }
-//             });
-//        });
-//    })
-//    .catch(function (error) {
-//        console.error('error');
-//        console.error(error);
-//    })
-// })
+                newProduct.save(function(err, data) {
+                if(err) {
+                    console.log(err);
+                }
+                else {
+                    res.send("Data inserted");
+                }
+            });
+       });
+   })
+   .catch(function (error) {
+       console.error('error');
+       console.error(error);
+   })
+})
