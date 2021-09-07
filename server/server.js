@@ -1,45 +1,51 @@
+// import axios from 'axios';
+// var router = express.Router();
+var axios = require('axios')
 var mongoose = require('mongoose');
 const express=require('express');
 const bodyParser = require('body-parser');
 const api = require('./api');
 const port=3000;
 const app=express();
-
+const connecrDB = require('./connection');
 var http = require("http").createServer(app);
 // var StudentModel = require('./studentschema');
-
+var ProductModel = require('./Model/product');
 var fileSystem = require("fs");
 var fastcsv = require("fast-csv");
- 
+connecrDB();
+//phân trang
+const PAGE_SIZE = 2;
+app.get('/student',(req,res,next)=>{
+    var page = req.query.page;
+    if(page){
+        page = parseInt(page);
+        var soLuongBoQua =(page-1) * PAGE_SIZE
+
+        StudentModel.find({})
+        .skip(soLuongBoQua).limit(PAGE_SIZE)
+        .then(data=>{
+                res.json(data)
+        })
+        .catch(err=>{
+            res.status(500).json("Loi server")
+        })
+    }else{
+        StudentModel.find({})
+    .then(data =>{
+        res.json(data);
+    })
+    .catch(err=>{
+        res.status(500).json("Loi server")
+    })
+    }
+
+});
 app.use("/public", express.static(__dirname + "/public"));
 http.listen(4000, function () {
     console.log("Connected");
     app.get("/exportData", function (request, result) {
-        
-        // var data = [{
-        //     "id": 1,
-        //     "name": "Adnan",
-        //     "age": 29
-        // }, {
-        //     "id": 2,
-        //     "name": "Ali",
-        //     "age": 31
-        // }, {
-        //     "id": 3,
-        //     "name": "Ahmad",
-        //     "age": 33
-        // }];
-        var query = 'mongodb://localhost:27017'
-  
-         const db = (query);
-
-        mongoose.connect(db, { useNewUrlParser : true, 
-            useUnifiedTopology: true }, function(error) {
-                if (error) {
-                    console.log("Error!" + error);
-                }
-                console.log("ket noi thanh cong !");
-            });
+       
             StudentModel.find(function(err, data1) {
                 if(err){
                     console.log(err);
@@ -66,14 +72,6 @@ http.listen(4000, function () {
         
     });
 });
-// const MongoClient = require("mongodb").MongoClient;
-// MongoClient.connect("mongodb://localhost:27017",(err,client)=>{
-//     if(err){
-//         return console.log(err);
-
-//     }
-//     console.log("Da ket noi thanh cong")
-// })
 app.listen(port, function() {
     console.log("Server is listening at port:" + port);
 }); 
@@ -84,31 +82,39 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Parses the text as json
 app.use(bodyParser.json());
 app.use('/api', api);
-const StudentModel = require('./studentschema');
+const StudentModel = require('./Model/studentschema');
 const { json } = require('body-parser');
-const PAGE_SIZE = 2;
-app.get('/student',(req,res,next)=>{
-    var page = req.query.page;
-    if(page){
-        page = parseInt(page);
-        var soLuongBoQua =(page-1) * PAGE_SIZE
 
-        StudentModel.find({})
-        .skip(soLuongBoQua).limit(PAGE_SIZE)
-        .then(data=>{
-                res.json(data)
-        })
-        .catch(err=>{
-            res.status(500).json("Loi server")
-        })
-    }else{
-        StudentModel.find({})
-    .then(data =>{
-        res.json(data);
-    })
-    .catch(err=>{
-        res.status(500).json("Loi server")
-    })
-    }
-    
-})
+// them moi vao api
+// app.get('/insertapi',(req,res) => {
+//     const urlApiThemMoi = 'https://api.punkapi.com/v2/beers';
+// axios.get(urlApiThemMoi)
+//    .then(function (response) {
+//        console.log('response');
+//        console.log(response);
+//        const { data } = response;
+//        console.log(response);
+
+//        data.forEach(product =>{
+//             var newProduct = new ProductModel({
+//                 name: product.name,
+//                 tagline: product.tagline,
+//                 first_brewed:product.first_brewed,
+//                 description:product.description
+//                 });
+            
+//                 newProduct.save(function(err, data) {
+//                 if(err) {
+//                     console.log(err);
+//                 }
+//                 else {
+//                     res.send("Data inserted");
+//                 }
+//             });
+//        });
+//    })
+//    .catch(function (error) {
+//        console.error('error');
+//        console.error(error);
+//    })
+// })
