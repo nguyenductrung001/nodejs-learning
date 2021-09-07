@@ -85,6 +85,7 @@ app.use('/api', api);
 const StudentModel = require('./Model/studentschema');
 const { json } = require('body-parser');
 
+
 // them moi vao api
 // app.get('/insertapi',(req,res) => {
 //     const urlApiThemMoi = 'https://api.punkapi.com/v2/beers';
